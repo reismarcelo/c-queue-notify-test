@@ -1,0 +1,6 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>c-queue-notify-test</name>
+  <package-version>1.0</package-version>
+  <description>Sample services to validate the commit-queue notification package</description>
+  <ncs-min-version>4.6</ncs-min-version>
+</ncs-package>

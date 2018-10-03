@@ -1,0 +1,52 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="c-queue-test1-servicepoint">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{device}</name>
+      <config>
+        <vrf xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <vrf-list>
+            <name>{../name}</name>
+            <address-family>
+              <ipv4>
+                <unicast>
+                  <import>
+                    <route-target>
+                      <address-list>
+                        <name>{../global-settings/asn}:{id}</name>
+                      </address-list>
+                    </route-target>
+                  </import>
+                  <export>
+                    <route-target>
+                      <address-list>
+                        <name>{../global-settings/asn}:{id}</name>
+                      </address-list>
+                    </route-target>
+                  </export>
+                </unicast>
+              </ipv4>
+              <ipv6>
+                <unicast>
+                  <import>
+                    <route-target>
+                      <address-list>
+                        <name>{../global-settings/asn}:{id}</name>
+                      </address-list>
+                    </route-target>
+                    </import>
+                    <export>
+                    <route-target>
+                      <address-list>
+                        <name>{../global-settings/asn}:{id}</name>
+                      </address-list>
+                    </route-target>
+                  </export>
+                </unicast>
+              </ipv6>
+            </address-family>
+          </vrf-list>
+        </vrf>
+      </config>
+    </device>
+  </devices>
+</config-template>

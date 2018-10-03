@@ -1,0 +1,147 @@
+module c-queue-notify-test {
+
+  namespace "http://cisco.com/services/cqueuenotifytest";
+  prefix cq-notify-test;
+
+  import ietf-inet-types { prefix inet; }
+  import tailf-common { prefix tailf; }
+  import tailf-ncs { prefix ncs; }
+
+  organization "Cisco Systems, Inc.";
+
+  contact
+    " Marcelo Reis
+      mareis@cisco.com
+    ";
+
+  description
+    " Sample services to validate the commit-queue notify service.
+    ";
+
+
+  // =========================================================================
+  //  REVISION
+  // =========================================================================
+
+  revision 2018-10-02 {
+    description
+      "Initial version.";
+  }
+
+
+  // =========================================================================
+  //  SERVICES
+  // =========================================================================
+
+  augment /ncs:services {
+    container c-queue-test1 {
+      tailf:info "Configure a VRF on multiple devices";
+      tailf:cli-add-mode;
+
+      list vrf {
+        tailf:info "VRF parameters";
+
+        key name;
+        leaf name {
+          tailf:info "Unique VRF name";
+          tailf:cli-allow-range;
+          type string;
+        }
+
+        uses ncs:service-data;
+        ncs:servicepoint c-queue-test1-servicepoint;
+        uses ncs:plan-data;
+
+        leaf-list device {
+          tailf:info "Devices participating in the VPN";
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+        }
+        leaf id {
+          tailf:info "ID used to compose the RT. That is, configured RT becomes <service-provider-asn>:<id>";
+          mandatory true;
+          type uint16 {
+            tailf:info "<0-65535>;;VRF id";
+          }
+        }
+      }  // list VRF
+
+      container global-settings {
+        tailf:info "Global settings for all VRFs";
+        tailf:cli-add-mode;
+
+        leaf asn {
+          tailf:info "Service provider AS number";
+          type inet:as-number {
+            tailf:info "<0-4294967295>;;AS number";
+          }
+        }
+      }  // container global-settings
+
+    }  // container c-queue-test1
+
+    container c-queue-test2 {
+      tailf:info "Configure a VRF on multiple devices";
+      tailf:cli-add-mode;
+
+      list vrf {
+        tailf:info "VRF parameters";
+
+        key name;
+        leaf name {
+          tailf:info "Unique VRF name";
+          tailf:cli-allow-range;
+          type string;
+        }
+
+        uses ncs:service-data;
+        ncs:servicepoint c-queue-test2-servicepoint;
+        uses ncs:plan-data;
+
+        leaf-list device {
+          tailf:info "Devices participating in the VPN";
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+        }
+        leaf id {
+          tailf:info "ID used to compose the RT. That is, configured RT becomes <service-provider-asn>:<id>";
+          mandatory true;
+          type uint16 {
+            tailf:info "<0-65535>;;VRF id";
+          }
+        }
+      }  // list VRF
+
+      container global-settings {
+        tailf:info "Global settings for all VRFs";
+        tailf:cli-add-mode;
+
+        leaf asn {
+          tailf:info "Service provider AS number";
+          type inet:as-number {
+            tailf:info "<0-4294967295>;;AS number";
+          }
+        }
+      }  // container global-settings
+
+    }  // container c-queue-test2
+
+    container rest-test-server {
+      description "This is just to simulate the server side and validate the REST call.";
+      tailf:cli-add-mode;
+
+      list commit-queue-completions {
+        key name;
+        leaf name {
+          type string;
+        }
+        leaf data {
+          type string;
+        }
+      }  // list commit-queue-completions
+    } // container rest-server
+
+  }  // augment
+}
