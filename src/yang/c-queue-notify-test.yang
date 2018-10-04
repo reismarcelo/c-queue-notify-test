@@ -28,6 +28,11 @@ module c-queue-notify-test {
       "Initial version.";
   }
 
+  revision 2018-10-04 {
+    description
+      "Minor updates.";
+  }
+
 
   // =========================================================================
   //  SERVICES
@@ -132,15 +137,12 @@ module c-queue-notify-test {
       description "This is just to simulate the server side and validate the REST call.";
       tailf:cli-add-mode;
 
-      list commit-queue-completions {
+      list completed {
         key name;
         leaf name {
           type string;
         }
-        leaf data {
-          type string;
-        }
-      }  // list commit-queue-completions
+      }  // list completed
     } // container rest-server
 
   }  // augment
